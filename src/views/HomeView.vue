@@ -8,7 +8,7 @@ export default {
       arr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       dataPages: [],
       dataArr: [],
-      currentIndex: 1
+      currentIndex: 1,
     }
   },
   methods: {
@@ -53,7 +53,7 @@ export default {
       this.currentIndex = nowPage
     },
     writeSurvey(id) {
-      this.$router.push(`/AddView/${id}`)
+      this.$router.push(`/ShowView/${id}`)
     }
 
   },
@@ -61,7 +61,7 @@ export default {
     RouterLink
   },
   props: [
-  "show"
+    "show"
   ],
   mounted() {
     this.setLocation(1)
@@ -77,7 +77,7 @@ export default {
   <div class="questionArea">
     <!-- <button type="button" @click="pagination(this.arr)">BTN</button> -->
     <div class="question" v-for="item in dataArr">
-      <input type="checkbox" :class="{'showInput': this.show === true}">
+      <input type="checkbox" :class="{ 'showInput': this.show === true }">
       <div class="surveyBlock" @click="writeSurvey(item)">
         <span style="font-size: 16pt;">SurveyTitle:{{ item }}</span>
         <span>問卷標題</span>
@@ -87,7 +87,6 @@ export default {
       </div>
     </div>
     <div class="btnArea">
-
       <button type="button" v-for="item in this.dataPages" @click="this.changePages(item)" class="pageBTN"
         :class="{ 'lightBTN': this.currentIndex === item }">{{ item }}</button>
     </div>
@@ -104,28 +103,30 @@ $bg: rgb(255, 255, 255);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: start;
 
   .question {
     width: 30%;
-    height: 33%;
+    height: 40%;
     display: flex;
-    flex-direction: column;
-    margin: 10px;
+    margin: 0 20px;
 
     input {
       width: 40px;
       height: 40px;
-      margin-bottom: 10px;
+      margin-right: 10px;
       opacity: 0;
       transition: all 1s;
     }
-    .showInput{
+
+    .showInput {
       width: 40px;
       height: 40px;
       margin-bottom: 10px;
       opacity: 1;
       transition: all 1s;
     }
+
     .surveyBlock {
       width: 100%;
       height: 95%;
@@ -135,32 +136,36 @@ $bg: rgb(255, 255, 255);
       justify-content: center;
       align-items: center;
       border-radius: 10px;
-      border: 1px solid rgb(0, 0, 0, 0.3);
-      box-shadow:
-        1px 0px 35px rgb(0, 0, 0, 0.35);
-      background: rgba(0, 0, 0, 0.08);
+      border: 1.5px solid rgb(9, 100, 9);
+      color: rgb(75, 112, 73);
+      // box-shadow:
+      //   0px 0px 20px rgb(0, 150, 0, 0.2);
+      background: rgba(255, 255, 255, 0.08);
       font-family: 'Noto Sans TC', sans-serif;
       position: relative;
+      cursor: pointer;
+      transition: all ease-in 0.5s;
 
       &:hover {
-        box-shadow: 1px 0px 15px rgb(85, 255, 0);
+        box-shadow: 1px 0px 25px rgb(85, 255, 0);
         border: 2px solid rgb(0, 180, 0);
-        background: rgb(0, 0, 0, 0.7);
-        color: rgb(0, 255, 0, 0.5);
-        transition: all 0.5s;
+        background: rgba(90, 212, 119, 0.1);
+        // color: rgb(224, 240, 221);
+
+
       }
     }
   }
 
   .btnArea {
     width: 100%;
-    height: 5vh;
+    height: 10%;
     position: absolute;
     bottom: 10px;
-    // border: 1px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 50px;
 
     .pageBTN {
       font-size: 30px;
@@ -178,7 +183,7 @@ $bg: rgb(255, 255, 255);
     }
 
     .lightBTN {
-      color: rgb(10, 233, 66);
+      color: rgb(113, 165, 110);
       font-size: 38px;
       transition: color 0.3s, font-size 0.1s;
     }

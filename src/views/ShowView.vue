@@ -2,36 +2,36 @@
     <div class="addSurArea">
 
         <div class="navBar">
-            <h1 :class="{ 'lightText': this.location == 1 }" @click="this.setLocation(1)">
+            <h1 :class="{ 'lightText': this.location == 1 }" @click="this.change(1)">
                 SurveyTitle</h1>
-            <h1 :class="{ 'lightText': this.location == 2 }" @click="this.setLocation(2)">SurveyQuestion</h1>
-            <h1 :class="{ 'lightText': this.location == 3 }" v-if="this.surveyInfo.surveyQuestions !== ''"
-                @click="this.setLocation(3), this.getInfo(this.surveyInfo)">
-                SurveyCheck</h1>
-            <h1 class="dark" v-if="this.surveyInfo.surveyQuestions == ''">SurveyCheck</h1>
+            <h1 :class="{ 'lightText': this.location == 2 }" @click="this.change(2)">SurveyQuestion</h1>
+            <h1 :class="{ 'lightText': this.location == 3 }" @click="this.change(3)">SurveyResponse</h1>
+            <h1 :class="{ 'lightText': this.location == 4 }" @click="this.change(4)">SurveyTotal</h1>
+
         </div>
         <div class="hr"></div>
         <div class="contentShow">
-            <AddTitle v-if="this.location == 1" v-model:title="this.surveyInfo.surveyTitle"
+            <ShowTitle v-if="this.location == 1" v-model:title="this.surveyInfo.surveyTitle"
                 v-model:content="this.surveyInfo.surveyContent" v-model:startTime="this.surveyInfo.surveyStartTime"
-                v-model:endTime="this.surveyInfo.surveyEndTime" @checkNamed="giveCheck" :location="this.location" />
+                v-model:endTime="this.surveyInfo.surveyEndTime" @checkNamed="giveCheck" :location="this.location"/>
 
-            <AddQuestion v-if="this.location == 2" v-model:questions="this.surveyInfo.surveyQuestions"
+            <ShowQuestion v-if="this.location == 2" v-model:questions="this.surveyInfo.surveyQuestions"
                 v-model:answers="this.surveyInfo.surveyAnswers" />
-            <AddCheck v-if="this.location == 3" />
+            <ShowRes v-if="this.location == 3" />
+            <ShowTotal v-if="this.location == 4" />
         </div>
     </div>
 </template>
 <script>
-import AddTitle from '../components/Add/AddTitle.vue';
-import AddQuestion from '../components/Add/AddQuestion.vue'
-import AddCheck from '../components/Add/AddCheck.vue';
-import { mapState, mapActions } from 'pinia';
-import survey from '../stores/survey';
-import location from '../stores/location'
+import ShowTitle from '../components/Show/ShowTitle.vue';
+import ShowQuestion from '../components/Show/ShowQuestion.vue'
+import ShowRes from '../components/Show/ShowRes.vue';
+import ShowTotal from '../components/Show/ShowTotal.vue';
+
 export default {
     data() {
         return {
+            location: 1,
             surveyInfo: {
                 surveyTitle: "",
                 surveyContent: "",
@@ -39,25 +39,25 @@ export default {
                 surveyEndTime: "",
                 surveyQuestions: "",
                 surveyAnswers: "",
-                surveyNamed: false
+                surveyNamed:false
             },
             openRed: false,
 
         }
     },
     components: {
-        AddTitle,
-        AddQuestion,
-        AddCheck
+        ShowTitle,
+        ShowQuestion,
+        ShowRes,
+        ShowTotal
     },
-    computed: {
-        ...mapState(location, ["location"])
+    watch: {
     },
     methods: {
-        ...mapActions(survey, ["getInfo"]),
-        ...mapActions(location, ["setLocation"]),
-        // 是否記名
-        giveCheck(x) {
+        change(x) {
+            this.location = x
+        },
+        giveCheck(x){
             this.surveyInfo.surveyNamed = x
             console.log(this.surveyInfo)
         }
@@ -76,7 +76,6 @@ export default {
     width: 100%;
     height: 100%;
     display: flex;
-
     .navBar {
         width: 20%;
         height: 620px;
@@ -112,11 +111,6 @@ export default {
             ;
         }
 
-        .dark {
-            cursor: not-allowed;
-            opacity: 0.3;
-        }
-
     }
 
     .hr {
@@ -135,6 +129,5 @@ export default {
     flex-direction: column;
     justify-content: space-evenly;
     transition: all 3s;
-
 }
 </style>

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export default defineStore("location", {
     state: () => ({
-        location: 0
+        location: 1
     }),
     getters: {
         locationInfo() {
