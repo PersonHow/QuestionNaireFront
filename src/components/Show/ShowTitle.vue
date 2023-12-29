@@ -1,18 +1,17 @@
 <template>
-
-    <div class="surTitle titleArea" :class="{'closeArea' : this.location !== 1}">
+    <div class="surTitle titleArea" :class="{ 'closeArea': this.location !== 1 }">
         <h1>問卷標題</h1>
-        <input type="text" @input="$emit(`update:title`, $event.target.value)" v-model="this.title">
+        <input type="text" v-model="this.title" disabled>
     </div>
-    <div class="surContent titleArea" :class="{'closeArea' : this.location !== 1}">
+    <div class="surContent titleArea" :class="{ 'closeArea': this.location !== 1 }">
         <h1>問卷說明</h1>
-        <textarea name="" id="" cols="50" rows="10" @input="$emit(`update:content`, $event.target.value)" v-model="this.content"></textarea>
+        <textarea name="" id="" cols="50" rows="10" v-model="this.content" disabled></textarea>
     </div>
-    <div class="surTime titleArea" :class="{'closeArea' : this.location !== 1}">
+    <div class="surTime titleArea" :class="{ 'closeArea': this.location !== 1 }">
         <h1>開始時間：</h1>
-        <input type="date" @input="$emit(`update:startTime`, $event.target.value)">
+        <span>{{ this.startTime }}</span>
         <h1>結束時間：</h1>
-        <input type="date" @input="$emit(`update:endTime`, $event.target.value)" >
+        <span>{{ this.endTime }}</span>
         <h1>記名</h1>
         <input type="checkbox" id="namedBox" style="width: 40px;" @change="this.checkOff()">
     </div>
@@ -31,18 +30,18 @@ export default {
         "endTime",
         "location"
     ],
-    emits:[
+    emits: [
         'checkNamed'
     ],
     methods: {
-        checkOff(){
+        checkOff() {
             const checkbox = document.querySelector("#namedBox")
             this.$emit("checkNamed", checkbox.checked)
         }
     },
     mounted() {
     },
-    updated(){
+    updated() {
         // console.log(this.named)
     }
 }
@@ -64,6 +63,7 @@ export default {
         font-size: 40pt;
         padding-left: 10px;
     }
+
 }
 
 .surContent {
@@ -87,6 +87,10 @@ export default {
     h1 {
         margin-left: 40px;
         margin-right: 20px;
+    }
+
+    span {
+        font-size: 20pt;
     }
 
     input {

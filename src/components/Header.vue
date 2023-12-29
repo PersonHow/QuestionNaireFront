@@ -9,7 +9,7 @@
             <i class="fa-solid fa-house"></i>
         </RouterLink>
         <div class="searchArea">
-            <n-date-picker v-model:value="this.range" type="daterange" clearable class="dateSelect" id="datePicker" />
+            <n-date-picker v-model:value="this.range" type="daterange" clearable class="dateSelect"  />
             <input type="text" placeholder="搜尋問卷標題">
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
@@ -51,7 +51,7 @@ export default {
             console.log(startText)
         },
         conDate() {
-            const datePicker = document.getElementById("datePicker")
+            const datePicker = document.querySelector(".dateSelect")
             console.dir(datePicker)
         }
     },
@@ -73,7 +73,7 @@ $bg: rgb(255, 255, 255);
     align-items: center;
     position: relative;
     transition: height 1s, display 1s;
-    border-bottom: 3px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 
     .searchArea {
         width: 200px;
@@ -90,6 +90,7 @@ $bg: rgb(255, 255, 255);
 
         i {
             position: absolute;
+            color: rgba(100, 102, 100);
             left: 0;
             top: 15px;
             font-size: 20pt;
@@ -109,7 +110,7 @@ $bg: rgb(255, 255, 255);
             position: absolute;
             top: 5px;
             font-size: 28pt;
-            color: black;
+            color: rgba(100, 102, 100);
         }
 
         i {
@@ -169,16 +170,16 @@ $bg: rgb(255, 255, 255);
         .barItem {
             // 標題圖示
             font-size: 28pt;
-            color: black;
             text-shadow: none;
+            color: rgba(100, 102, 100);
         }
 
         .barText {
             // 標題文字
             font-size: 28px;
             text-shadow: none;
-            color: black;
             font-family: 'Noto Sans TC', sans-serif;
+            color: rgba(100, 102, 100);
         }
 
         i {

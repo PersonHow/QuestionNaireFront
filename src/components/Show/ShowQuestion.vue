@@ -13,8 +13,9 @@
     <div class="questOption">
         <label>選項</label>
         <div class="inputArea">
-            <span>(多個答案請以 ; 分隔。ex:one;two;three;代表第一個答案是 one 以此類推)</span>
-            <textarea name="" id="optionAns" cols="30" rows="10" :disabled="this.typeVal == '簡答'" value=""></textarea>
+            <span>(&nbsp;多個答案請以 ; 分隔。ex:one;two;three;&nbsp; 代表第一個答案是 one 以此類推&nbsp;)</span>
+            <textarea name="" id="optionAns" cols="30" rows="10" :disabled="this.typeVal == '簡答'" value=""
+                v-model="this.optionAns"></textarea>
         </div>
         <button type="button" @click="this.joinOptionsAndQuestion()" v-show="this.btnType == false">JOIN</button>
         <button type="button" @click="this.editDone()" v-show="this.btnType == true">Edit</button>
@@ -33,7 +34,7 @@
 
         <tbody>
             <tr class="tabelTr" v-for="(item, index) in this.tableData">
-                <td class="tableCheck" ><input type="checkbox" name="index" v-model="this.deleteIndex" :value=index></td>
+                <td class="tableCheck"><input type="checkbox" name="index" v-model="this.deleteIndex" :value=index></td>
                 <td class="tableNum">{{ index + 1 }}</td>
                 <td class='tableTitle'>{{ item.que.split(",")[0] }}</td>
                 <td class="tableType">{{ item.ans.split(",")[0] }}</td>
@@ -57,11 +58,10 @@ export default {
             ],
             tableData: [],
             typeVal: "",
-            btnType:false,
-            quesIndex:"",
-            deleteIndex:[],
-            trashType:false,
-
+            btnType: false,
+            quesIndex: "",
+            deleteIndex: [],
+            trashType: false,
         }
     },
     props: [
@@ -86,23 +86,48 @@ export default {
             } else {
                 qAndA.que = `${title.value},非必填`
             }
-            // 捕捉選項標籤
-            const optionAns = document.querySelector("#optionAns");
+
+            // 防呆, 問題回答類型沒有填 & 單複選時沒有設計選項
+            if (this.typeVal == "") {
+                this.modalOn = !this.modalOn
+                return
+            }
+            if (this.typeVal !== '簡答') {
+                if (this.optionAns == '') {
+                    this.modalOn = !this.modalOn
+                    this.textOn = !this.textOn
+                    return
+                }
+            }
+
             // 選項組成字串, ex:單選題,aa;bb;cc
-            qAndA.ans = `${this.typeVal},${optionAns.value}`
+            qAndA.ans = `${this.typeVal},${this.optionAns}`
             this.tableData.push(qAndA)
             // 新增完成, 需要將欄位資訊清空
             title.value = ""
             needed.checked = false
-            optionAns.value = ""
+            this.optionAns = ""
             this.typeVal = ""
+
+            // 存放題目字串的陣列
+            let surQArr = []
+            // 存放答案字串的陣列
+            let surAArr = []
+            this.tableData.forEach(item => {
+                surQArr.push(item.que)
+                surAArr.push(item.ans)
+            })
+            // 每題題目與選項都已 "|" 區分
+            let surQues = surQArr.join("|");
+            let surAns = surAArr.join("|");
+            console.log(surQues)
+            this.$emit('update:questions', surQues)
+            this.$emit('update:answers', surAns)
         },
         editOptionAndQuestion(index) {
             // 捕捉到問題名稱與是否必填的標籤
             const title = document.querySelector("#titleInput");
             const needed = document.querySelector("#needed");
-            // 捕捉選項標籤
-            const optionAns = document.querySelector("#optionAns");
 
             // 以下是把該選項資訊帶到輸入欄位中
             title.value = this.tableData[index].que.split(",")[0]
@@ -112,52 +137,116 @@ export default {
                 needed.checked = false;
             }
             this.typeVal = this.tableData[index].ans.split(",")[0]
-            optionAns.value = this.tableData[index].ans.split(",")[1]
+            this.optionAns = this.tableData[index].ans.split(",")[1]
             this.quesIndex = index;
-            this.btnType = !this.btnType
+            this.btnType = true;
         },
-        editDone(){
-            // 捕捉到問題名稱與是否必填的標籤
+        editDone() {
+        // 捕捉到問題名稱與是否必填的標籤
             const title = document.querySelector("#titleInput");
             const needed = document.querySelector("#needed");
-            // 捕捉選項標籤
-            const optionAns = document.querySelector("#optionAns");
-            if(needed.checked){
+
+            // 防呆, 問題回答類型沒有填 & 單複選時沒有設計選項
+            if (this.typeVal == "") {
+                this.modalOn = !this.modalOn
+                return
+            }
+            if (this.typeVal !== '簡答') {
+                if (this.optionAns == '') {
+                    this.modalOn = !this.modalOn
+                    this.textOn = !this.textOn
+                    return
+                }
+            } else {
+                this.optionAns = ''
+            }
+            // 判定題型是否必填
+            if (needed.checked) {
                 this.tableData[this.quesIndex].que = `${title.value},必填`
-            }else{
+            } else {
                 this.tableData[this.quesIndex].que = `${title.value},非必填`
             }
-            this.tableData[this.quesIndex].ans = `${this.typeVal},${optionAns.value}`
+            this.tableData[this.quesIndex].ans = `${this.typeVal},${this.optionAns}`
 
-             // 新增完成, 需要將欄位資訊清空
-             title.value = ""
+            // 存放題目字串的陣
+            let surQArr = []
+            // 存放答案字串的陣列
+            let surAArr = []
+            this.tableData.forEach(item => {
+                surQArr.push(item.que)
+                surAArr.push(item.ans)
+            })
+            // 每題題目與選項都已 "|" 區分
+            let surQues = surQArr.join("|");
+            let surAns = surAArr.join("|");
+            console.log(surQues)
+            this.$emit('update:questions', surQues)
+            this.$emit('update:answers', surAns)
+            // 新增完成, 需要將欄位資訊清空
+            title.value = ""
             needed.checked = false
-            optionAns.value = ""
+            this.optionAns = ""
             this.typeVal = ""
-            
+
             this.btnType = !this.btnType;
 
+        },
+        alertOn() {
+            this.modalOn = !this.modalOn
+            this.textOn = !this.textOn
+        },
+        deleteItem() {
+            this.deleteIndex.forEach((item, index) => {
+                this.tableData.splice(item, 1)
+
+            })
+            console.log(this.tableData)
+        },
+        creatData() {
+            let quzArr = this.questions.split("|")
+            // this.ans
+
+            quzArr.forEach((item, index) => {
+                let qAndA = {
+                    que: "",
+                    ans: ""
+                }
+                qAndA.que = item
+                qAndA.ans = this.answers.split("|")[index]
+                this.tableData.push(qAndA)
+            })
+
+            console.log(this.tableData)
         }
     },
     mounted() {
+
     },
-    updated(){
+    created() {
+        this.tableData.que = this.questions;
+        this.tableData.ans = this.answers;
+        console.log(this.tableData)
+        this.creatData()
+    },
+    updated() {
         console.log(this.deleteIndex)
     }
 }
 </script>
 <style lang="scss" scoped>
-.fa-trash-can{
+.fa-trash-can {
     cursor: pointer;
     position: fixed;
     right: 2%;
-    bottom:10%;
+    bottom: 10%;
     font-size: 80px;
     color: rgb(30, 62, 28);
-    &:active{
+
+    &:active {
         scale: 0.9;
     }
 }
+
 .questTitle {
     width: 100%;
     height: 15%;
@@ -307,7 +396,7 @@ export default {
 
             &:active {
                 color: rgb(7, 86, 20);
-                text-shadow: 
+                text-shadow:
                     0px 0px 2px rgb(184, 232, 182),
                     0px 0px 16px rgb(184, 232, 182),
                     0px 0px 25px rgb(184, 226, 182),

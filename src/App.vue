@@ -9,12 +9,12 @@ console.log(show.value)
 <template>
   <div class="appArea">
 
-    <div class="closeHeader" :class="{ 'openHeader': show === true }" >
+    <div class="closeHeader" :class="{ 'openHeader': show === true }">
       <Header :show="show" />
       <i class="fa-solid fa-angle-down openDown" @click="show = !show"></i>
       <i class="fa-solid fa-angle-up openUp" @click="show = !show"></i>
     </div>
-    <div class="content" >
+    <div class="content">
 
       <RouterView :show="show" />
     </div>
@@ -27,7 +27,6 @@ console.log(show.value)
   height: 100vh;
   display: flex;
   flex-direction: column;
-  /* background: rgb(0, 0, 0); */
   background: rgb(255, 255, 255);
 }
 
@@ -97,6 +96,5 @@ console.log(show.value)
 .content {
   width: 100vw;
   height: 90vh;
-  margin-top: 20px;
 }
 </style>

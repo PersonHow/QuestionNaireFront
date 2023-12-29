@@ -18,7 +18,9 @@
 
             <AddQuestion v-if="this.location == 2" v-model:questions="this.surveyInfo.surveyQuestions"
                 v-model:answers="this.surveyInfo.surveyAnswers" />
-            <AddCheck v-if="this.location == 3" />
+            <AddCheck v-if="this.location == 3" :title="this.surveyInfo.surveyTitle" :content="this.surveyInfo.surveyContent"
+            :start="this.surveyInfo.surveyStartTime" :end="this.surveyInfo.surveyEndTime" :questions="this.surveyInfo.surveyQuestions"
+            :answers="this.surveyInfo.surveyAnswers" :named="this.surveyInfo.surveyNamed"/>
         </div>
     </div>
 </template>
@@ -66,7 +68,9 @@ export default {
 
     },
     updated() {
-        console.log(this.surveyInfo)
+        if(this.surveyInfo.surveyEndTime !== ''){
+            console.log(this.surveyInfo)
+        }
     }
 
 }
@@ -130,11 +134,11 @@ export default {
 
 .contentShow {
     width: 100%;
-    height: 100%;
+    height: 90%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
     transition: all 3s;
-
+    overflow-y: scroll;
 }
 </style>

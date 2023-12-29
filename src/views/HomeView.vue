@@ -5,14 +5,40 @@ import { RouterLink } from 'vue-router'
 export default {
   data() {
     return {
+      // 總資料陣列
       arr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+      // 分頁
       dataPages: [],
+      // 當前頁面要顯示的資料陣列
       dataArr: [],
+      // 當前頁面
       currentIndex: 1,
+      // 刪除資料的索引
+      delArr: [],
     }
   },
   methods: {
     ...mapActions(location, ["setLocation"]),
+    showAll() {
+      fetch("http://localhost:8080/questionNaire/backAllSurvey", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: 0
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+          if (data !== '') {
+
+            this.arr = data;
+          }
+          this.pagination(this.arr, 1)
+        })
+        .catch(error => console.log(error)
+        )
+    },
     pagination(data, nowPage) {
       // 全部資料的長度
       const dataTotal = data.length;
@@ -54,6 +80,10 @@ export default {
     },
     writeSurvey(id) {
       this.$router.push(`/ShowView/${id}`)
+    },
+    test(){
+      let arr = "必填, |"
+      console.log(arr.split("|"))
     }
 
   },
@@ -67,8 +97,11 @@ export default {
     this.setLocation(1)
   },
   created() {
-    this.pagination(this.arr, 1)
-  }
+    // setInterval(() => {
+    //   this.showAll()
+    // }, 3000);
+    this.showAll()
+  },
 
 }
 </script>
@@ -76,13 +109,13 @@ export default {
 <template>
   <div class="questionArea">
     <!-- <button type="button" @click="pagination(this.arr)">BTN</button> -->
-    <div class="question" v-for="item in dataArr">
+    <div class="question" v-for="(item, index) in dataArr">
       <input type="checkbox" :class="{ 'showInput': this.show === true }">
-      <div class="surveyBlock" @click="writeSurvey(item)">
-        <span style="font-size: 16pt;">SurveyTitle:{{ item }}</span>
-        <span>問卷標題</span>
-        <span>狀態</span>
-        <span>時間</span>
+      <div class="surveyBlock" @click="writeSurvey(item.surveyId)">
+        <span style="font-size: 16pt;">SurveyNum:{{ item.surveyId }}</span>
+        <span>問卷標題:{{ item.surveyTitle }}</span>
+        <span>狀態:{{ item.surveyCondition }}</span>
+        <span>時間:{{ item.surveyStartTime }}~{{ item.surveyEndTime }}</span>
         <span>統計結果</span>
       </div>
     </div>
@@ -104,6 +137,7 @@ $bg: rgb(255, 255, 255);
   flex-wrap: wrap;
   justify-content: center;
   align-items: start;
+  padding-top: 30px;
 
   .question {
     width: 30%;
@@ -136,22 +170,20 @@ $bg: rgb(255, 255, 255);
       justify-content: center;
       align-items: center;
       border-radius: 10px;
-      border: 1.5px solid rgb(9, 100, 9);
+      border: 0.5px solid rgb(47, 124, 42);
       color: rgb(75, 112, 73);
-      // box-shadow:
-      //   0px 0px 20px rgb(0, 150, 0, 0.2);
       background: rgba(255, 255, 255, 0.08);
       font-family: 'Noto Sans TC', sans-serif;
       position: relative;
       cursor: pointer;
-      transition: all ease-in 0.5s;
+      transition: all linear 0.5s;
+      transition: border linear 0.2s;
 
       &:hover {
-        box-shadow: 1px 0px 25px rgb(85, 255, 0);
-        border: 2px solid rgb(0, 180, 0);
-        background: rgba(90, 212, 119, 0.1);
-        // color: rgb(224, 240, 221);
-
+        box-shadow:
+          inset 0px 0px 2em rgb(85, 255, 0, 0.5),
+          0px 0px 30px rgb(25, 255, 15, 0.45);
+        border: 3px solid rgb(11, 177, 11);
 
       }
     }
@@ -173,12 +205,11 @@ $bg: rgb(255, 255, 255);
       background: none;
       border: none;
       transition: color 0.3s, font-size 0.1s;
-      // color: rgb(255,255,255);
 
       &:hover {
         color: rgba(65, 255, 17, 0.8);
         transition: color 0.3s;
-
+        scale: 1.1;
       }
     }
 

@@ -13,7 +13,7 @@
     <div class="questOption">
         <label>選項</label>
         <div class="inputArea">
-            <span>(多個答案請以 ; 分隔。ex:one;two;three;代表第一個答案是 one 以此類推)</span>
+            <span>(&nbsp;多個答案請以 ; 分隔。ex:one;two;three;&nbsp; 代表第一個答案是 one 以此類推&nbsp;)</span>
             <textarea name="" id="optionAns" cols="30" rows="10" :disabled="this.typeVal == '簡答'" value=""
                 v-model="this.optionAns"></textarea>
         </div>
@@ -35,7 +35,8 @@
 
         <tbody>
             <tr class="tabelTr" v-for="(item, index) in this.tableData">
-                <td class="tableCheck"><input type="checkbox" name="index" v-model="this.deleteIndex" :value=index></td>
+                <td class="tableCheck"><input type="checkbox" name="index" v-model="this.deleteIndex" :value=index
+                        :id=index></td>
                 <td class="tableNum">{{ index + 1 }}</td>
                 <td class='tableTitle'>{{ item.que.split(",")[0] }}</td>
                 <td class="tableType">{{ item.ans.split(",")[0] }}</td>
@@ -47,7 +48,6 @@
     <i class="fa-regular fa-trash-can" v-show="this.trashType == false" @mousemove="this.trashType = !this.trashType"></i>
     <i class="fa-solid fa-trash-can" v-show="this.trashType == true" @mouseleave="this.trashType = !this.trashType"
         @click="this.deleteItem()"></i>
-
     <Modal v-if="this.modalOn" @alertMessage="this.alertOn()">
         <h1 v-show="this.typeVal == ''">尚未選擇題型</h1>
         <h1 v-show="this.optionAns == ''">選項內容不可為空</h1>
@@ -55,6 +55,8 @@
 </template>
 <script>
 import Modal from '../modal.vue'
+import { mapState } from 'pinia'
+import survey from '../../stores/survey'
 export default {
     data() {
         return {
@@ -82,7 +84,8 @@ export default {
             optionAns: "",
 
         }
-    }, emits: [
+    },
+    emits: [
         "questions",
         "answers"
     ],
@@ -150,8 +153,6 @@ export default {
             // 捕捉到問題名稱與是否必填的標籤
             const title = document.querySelector("#titleInput");
             const needed = document.querySelector("#needed");
-            // 捕捉選項標籤
-            const optionAns = document.querySelector("#optionAns");
 
             // 以下是把該選項資訊帶到輸入欄位中
             title.value = this.tableData[index].que.split(",")[0]
@@ -161,9 +162,9 @@ export default {
                 needed.checked = false;
             }
             this.typeVal = this.tableData[index].ans.split(",")[0]
-            optionAns.value = this.tableData[index].ans.split(",")[1]
+            this.optionAns = this.tableData[index].ans.split(",")[1]
             this.quesIndex = index;
-            this.btnType = !this.btnType
+            this.btnType = true
         },
         editDone() {
             // 捕捉到問題名稱與是否必填的標籤
@@ -220,16 +221,32 @@ export default {
             this.textOn = !this.textOn
         },
         deleteItem() {
-            this.deleteIndex.forEach(item => {
+            this.deleteIndex.forEach((item, index) => {
                 this.tableData.splice(item, 1)
+
             })
             console.log(this.tableData)
-        }
+        },
+    },
+    computed: {
+        ...mapState(survey, ["surInfo"])
     },
     components: {
         Modal
     },
     mounted() {
+        // 從預覽頁返回時, 將已放入的問題抓出來顯示
+        if (this.surInfo !== "") {
+            this.surInfo.surveyQuestions.split('|').forEach((item, index) => {
+                let qAndA = {
+                    que: "",
+                    ans: ""
+                }
+                qAndA.que = item
+                qAndA.ans = this.surInfo.surveyAnswers.split('|')[index]
+                this.tableData.push(qAndA)
+            })
+        }
     },
     updated() {
 

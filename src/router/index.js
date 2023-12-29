@@ -22,7 +22,7 @@ const router = createRouter({
       path:'/AddView',
       name:'AddView',
       component: () => import('../views/AddView.vue')
-    }
+    },
   ]
 })
 
