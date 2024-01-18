@@ -12,7 +12,10 @@
     "naive-ui": "^2.35.0",
     "pinia": "^2.0.32",
     "sass": "^1.69.5",
+<<<<<<< HEAD
     "sweetalert2": "^11.10.3",
+=======
+>>>>>>> 50feaf39c9ce5cc9d1ffe96ea9cb6ddf6e128c77
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
