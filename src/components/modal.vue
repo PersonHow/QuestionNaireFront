@@ -1,76 +1,123 @@
+<script>
+</script>
 <template>
     <div class="modalArea">
-        <div class="textArea">
-            <i class="fa-solid fa-xmark" @click="$emit('alertMessage')"></i>
-            <slot>
+        <div class="block">
+            <i class="fa-solid fa-xmark" @click="$emit('closeModal')"></i>
+            <div class="blockSlot surveyId">
+                <slot name="surveyId">SurveyId:</slot>
+                <div class="time">
+                    <slot name="time">Time</slot>
+                </div>
+                <div class="condition">
+                    <slot name="condition">Condition</slot>
+                </div>
+            </div>
+            <div class="blockSlot title">
+                <slot name="title">Title:</slot>
+            </div>
+            <div class="blockSlot content">
+                <slot name="content">text</slot>
+            </div>
 
-            </slot>
+
+            <div class="btnArea">
+
+                <button type="button" @click="$emit('startWrite')">
+                    <i class="fa-solid fa-pen-to-square"></i>&nbsp;填寫問卷</button>
+                <button type="button"><i class="fa-solid fa-chart-line"></i>&nbsp;查看統計</button>
+            </div>
         </div>
-
         <div class="bg"></div>
     </div>
 </template>
-<script>
-export default {
-    emits: [
-        'alertMessage'
-    ]
-}
-</script>
 <style lang="scss" scoped>
 .modalArea {
-    width: 110dvw;
-    height: 100dvh;
+    width: 100dvw;
+    height: 200dvh;
     position: fixed;
-    top: 0;
+    top: -10dvw;
     left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 1;
 
-    .textArea {
-        width: 50dvw;
-        height: 50dvh;
-        background: rgb(255, 255, 255);
-        border: 3px solid rgb(1, 150, 1);
-        color: rgb(113, 165, 110);
-        border-radius: 10px;
-        position: relative;
-        text-align: center;
-        padding-top: 120px;
-        z-index: 1;
 
+    .block {
+        width: 60dvw;
+        height: 60dvh;
+        background: rgb(255, 255, 255);
+        z-index: 2;
+        position: absolute;
+        top: 45dvh;
+        left: 20dvw;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
         .fa-xmark {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-            font-size: 40px;
+            right: 1dvw;
+            top: 1dvh;
+            font-size: 2.2dvw;
+            color: rgb(75, 112, 73);
+            transition: all 0.1s linear;
 
-            &:hover {
-                //  圖示相關動畫
-                color: rgb(255, 255, 255);
-                text-shadow: 0px 0px 8px rgb(24, 98, 21),
-                    0px 0px 8px rgb(67, 87, 66),
-                    0px 0px 3px rgb(30, 62, 28),
-                    0px 0px 16px rgb(184, 232, 182),
-                    0px 0px 25px rgb(184, 226, 182),
-                ;
-                transition: text-shadow 0.5s;
+            &:hover{
+                color: rgb(113, 156, 111);
+                scale: 1.15;
+            }
+
+            &:active{
+                scale:0.95;
             }
         }
+
+        .blockSlot {
+            width: 100%;
+            height: 20%;
+            font-size: 1dvw;
+            color: rgb(75, 112, 73);
+            margin: 1dvh;
+        }
+
+        .surveyId{
+            display: flex;
+            justify-content: space-around;
+            height: 10%;
+        }
+        .title{
+            height: 10%;
+        }
+        .content{
+            height: 40%;
+        }
+        .btnArea{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 15%;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2%;
+
+            button{
+                font-size: 1.5dvw;
+                width: 12dvw;
+                height: 100%;
+                background: none;
+                border: none;
+
+                
+            }
+        }
+
 
     }
 
     .bg {
-        position: fixed;
-        top: 0;
-        width: inherit;
-        height: inherit;
-        background: rgb(0, 50, 0, 0.25);
+        width: 100dvw;
+        height: 200dvh;
+        background: rgba(40, 71, 34, 0.25);
         backdrop-filter: blur(5px);
-        z-index: 0;
     }
 }
 </style>
