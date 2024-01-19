@@ -1,7 +1,8 @@
 <script>
-import { mapActions } from 'pinia'
+import { mapActions } from 'pinia';
 import location from '../stores/location';
-import { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router';
+import modal from '../components/Modal.vue';
 export default {
   data() {
     return {
@@ -15,6 +16,10 @@ export default {
       currentIndex: 1,
       // 刪除資料的索引
       delArr: [],
+      // 控制開關 Modal
+      openModal: false,
+      // Modal 中使用的物件
+      modalObject: {},
     }
   },
   methods: {
@@ -79,19 +84,20 @@ export default {
       this.currentIndex = nowPage
     },
     writeSurvey(id) {
-      this.$router.push(`/ShowView/${id}`)
+      this.$router.push(`/AnsView/${id}`)
     },
-    test(){
-      let arr = "必填, |"
-      console.log(arr.split("|"))
+    controlModal(target) {
+      this.modalObject = target;
+      this.openModal = !this.openModal;
     }
 
   },
   components: {
-    RouterLink
+    RouterLink,
+    modal
   },
   props: [
-    "show"
+
   ],
   mounted() {
     this.setLocation(1)
@@ -110,19 +116,44 @@ export default {
   <div class="questionArea">
     <!-- <button type="button" @click="pagination(this.arr)">BTN</button> -->
     <div class="question" v-for="(item, index) in dataArr">
-      <input type="checkbox" :class="{ 'showInput': this.show === true }">
-      <div class="surveyBlock" @click="writeSurvey(item.surveyId)">
-        <span style="font-size: 16pt;">SurveyNum:{{ item.surveyId }}</span>
-        <span>問卷標題:{{ item.surveyTitle }}</span>
-        <span>狀態:{{ item.surveyCondition }}</span>
-        <span>時間:{{ item.surveyStartTime }}~{{ item.surveyEndTime }}</span>
-        <span>統計結果</span>
+      <!-- <div class="surveyBlock" @click="writeSurvey(item.surveyId)"> -->
+      <div class="surveyBlock" @click="this.controlModal(item)">
+        <span class="surveyTitle">SurveyNum:{{ item.surveyId }}</span>
+        <span class="surveyText">問卷標題:{{ item.surveyTitle }}</span>
+        <span class="surveyText">狀態:{{ item.surveyCondition }}</span>
+        <span class="surveyText">時間:{{ item.surveyStartTime }}&nbsp;~&nbsp;{{ item.surveyEndTime }}</span>
       </div>
     </div>
+    <modal v-if="this.openModal" @closeModal="this.controlModal()" @startWrite="writeSurvey(item.surveyId)">
+      <template v-slot:surveyId>
+        <h2>SurveyNum&nbsp;:&nbsp;{{ this.modalObject.surveyId }}</h2>
+      </template>
+      <template v-slot:time>
+        <h2>時間&nbsp;:&nbsp;{{ this.modalObject.surveyStartTime }}&nbsp;~&nbsp;{{ this.modalObject.surveyEndTime }}</h2>
+      </template>
+      <template v-slot:condition>
+        <h2>狀態&nbsp;:</h2>
+        <div class="contentCondition" :class="{ 'redText': this.modalObject.surveyCondition !== '開放中' }">
+          {{ this.modalObject.surveyCondition }}
+        </div>
+      </template>
+      <template v-slot:title>
+        <h2>問卷標題&nbsp;:&nbsp;{{ this.modalObject.surveyTitle }}</h2>
+      </template>
+      <template v-slot:content>
+        <h2>內容&nbsp;:</h2>
+        <div class="contentTextArea">
+          {{ this.modalObject.surveyContent }}
+        </div>
+      </template>
+
+    </modal>
     <div class="btnArea">
       <button type="button" v-for="item in this.dataPages" @click="this.changePages(item)" class="pageBTN"
         :class="{ 'lightBTN': this.currentIndex === item }">{{ item }}</button>
     </div>
+
+
   </div>
 </template>
 
@@ -132,7 +163,6 @@ $bg: rgb(255, 255, 255);
 .questionArea {
   width: 100vw;
   height: 100%;
-  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -174,17 +204,29 @@ $bg: rgb(255, 255, 255);
       color: rgb(75, 112, 73);
       background: rgba(255, 255, 255, 0.08);
       font-family: 'Noto Sans TC', sans-serif;
-      position: relative;
       cursor: pointer;
       transition: all linear 0.5s;
       transition: border linear 0.2s;
+
+      .surveyTitle {
+        font-size: 2.5dvw;
+        transition: all linear 0.1s;
+      }
 
       &:hover {
         box-shadow:
           inset 0px 0px 2em rgb(85, 255, 0, 0.5),
           0px 0px 30px rgb(25, 255, 15, 0.45);
         border: 3px solid rgb(11, 177, 11);
+        color: rgb(113, 156, 111);
 
+        .surveyTitle {
+          font-size: 3dvw;
+        }
+
+        .surveyText {
+          font-size: 1dvw;
+        }
       }
     }
   }
@@ -207,7 +249,7 @@ $bg: rgb(255, 255, 255);
       transition: color 0.3s, font-size 0.1s;
 
       &:hover {
-        color: rgba(65, 255, 17, 0.8);
+        color: rgba(42, 194, 4, 0.8);
         transition: color 0.3s;
         scale: 1.1;
       }
@@ -218,6 +260,32 @@ $bg: rgb(255, 255, 255);
       font-size: 38px;
       transition: color 0.3s, font-size 0.1s;
     }
+  }
+
+  .contentTextArea {
+    resize: none;
+    width: 90%;
+    height: 100%;
+    font-size: 24px;
+    margin-top: 1dvh;
+    margin-left: 5%;
+    font-weight: 700;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &:hover {
+      outline: none;
+    }
+  }
+
+  .contentCondition {
+    font-weight: 700;
+  }
+
+  .redText {
+    color: red;
   }
 }
 </style>

@@ -1,8 +1,8 @@
 <template >
     <div class="closeArea" :class="{ 'showArea': this.show === true }">
         <div class="routeItem barIcon">
-            <span class="barText">動態問券後台</span>
-            <i class="fa-solid fa-bars-progress barItem"></i>
+            <span class="barText">動態問券前台</span>
+            <i class="fa-solid fa-pen-nib barItem"></i>
         </div>
         <RouterLink to="/" class="routeItem" :class="{ 'locationCss': this.location === 1 }">
             <span>Home</span>
@@ -12,10 +12,6 @@
             <n-date-picker v-model:value="this.range" type="daterange" clearable class="dateSelect" />
             <input type="text" placeholder="搜尋問卷標題">
             <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-        <div class="editArea">
-            <i class="fa-regular fa-square-plus" @click="$router.push('/AddView')"></i>
-            <i class="fa-solid fa-trash" text-stroke="\f1f8"></i>
         </div>
     </div>
 </template>
@@ -73,7 +69,8 @@ $bg: rgb(255, 255, 255);
     align-items: center;
     position: relative;
     transition: height 1s, display 1s;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgb(136, 159, 134, 0.6);
+    z-index: 1;
 
     .searchArea {
         width: 200px;
@@ -93,7 +90,7 @@ $bg: rgb(255, 255, 255);
             color: rgba(100, 102, 100);
             left: 0;
             top: 15px;
-            font-size: 20pt;
+            font-size: 4dvh;
             display: block;
             transition: left 1s;
         }
@@ -143,6 +140,10 @@ $bg: rgb(255, 255, 255);
 
     .barIcon {
         width: 15%;
+
+        &:hover {
+            text-shadow: none;
+        }
     }
 
     .editArea {
@@ -163,23 +164,25 @@ $bg: rgb(255, 255, 255);
     .routeItem {
         width: 12%;
         height: 100%;
-        font-size: 20pt;
+        font-size: 2dvw;
         color: rgba(100, 102, 100);
         position: relative;
 
         .barItem {
             // 標題圖示
-            font-size: 28pt;
+            font-size: 3dvw;
             text-shadow: none;
             color: rgba(100, 102, 100);
         }
 
         .barText {
             // 標題文字
-            font-size: 28px;
+            font-size: 1.5dvw;
             text-shadow: none;
             font-family: 'Noto Sans TC', sans-serif;
             color: rgba(100, 102, 100);
+
+
         }
 
         i {
@@ -215,6 +218,10 @@ $bg: rgb(255, 255, 255);
 
     .barIcon {
         width: 16%;
+
+        &:hover {
+            text-shadow: none;
+        }
     }
 
     .searchArea {
@@ -244,10 +251,11 @@ $bg: rgb(255, 255, 255);
 
         input {
             //搜尋欄
-            height: 30px;
-            width: 480px;
+            height: 5dvh;
+            width: 25dvw;
             margin: 0 20px;
-            font-size: 18pt;
+            font-size: 3dvh;
+            padding: 5px;
             opacity: 1;
             animation: textUp linear 1.5s;
         }

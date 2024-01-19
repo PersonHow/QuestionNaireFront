@@ -16,85 +16,86 @@ console.log(show.value)
     </div>
     <div class="content">
 
-      <RouterView :show="show" />
+      <RouterView />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .appArea {
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   background: rgb(255, 255, 255);
-}
 
+  .closeHeader {
+    width: 100dvw;
+    height: 7dvh;
+    transition: height 0.5s;
+    position: relative;
 
-.closeHeader {
-  width: 100vw;
-  height: 7vh;
-  transition: height 0.5s;
-  position: relative;
+    i {
+      cursor: pointer;
+    }
 
-  i {
-    cursor: pointer;
+    .openUp {
+      opacity: 0;
+    }
+
+    .openDown {
+      background: rgb(157, 160, 160);
+      color: rgb(251, 251, 251);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: 50%;
+      bottom: -10px;
+      font-size: 20px;
+      opacity: 1;
+      z-index: 1;
+    }
+
   }
 
-  .openUp {
-    opacity: 0;
+  .openHeader {
+    width: 100dvw;
+    height: 10dvh;
+    transition: height 0.5s;
+    position: relative;
+
+    .openUp {
+      background: rgb(157, 160, 160);
+      color: rgb(251, 251, 251);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: 50%;
+      bottom: -10px;
+      font-size: 20px;
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .openDown {
+      opacity: 0;
+    }
+
   }
 
-  .openDown {
-    background: rgb(157, 160, 160);
-    color: rgb(251, 251, 251);
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    right: 50%;
-    bottom: -10px;
-    font-size: 20px;
-    opacity: 1;
-    z-index: 1;
+  .content {
+    width: 100dvw;
+    height: 90dvh;
+    // padding-top: 10px;
+    position: relative;
   }
-
-}
-
-.openHeader {
-  width: 100vw;
-  height: 10vh;
-  transition: height 0.5s;
-  position: relative;
-
-  .openUp {
-    background: rgb(157, 160, 160);
-    color: rgb(251, 251, 251);
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    right: 50%;
-    bottom: -10px;
-    font-size: 20px;
-    opacity: 1;
-    z-index: 1;
-  }
-
-  .openDown {
-    opacity: 0;
-  }
-
-}
-
-.content {
-  width: 100vw;
-  height: 90vh;
 }
 </style>
