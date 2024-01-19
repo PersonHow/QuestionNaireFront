@@ -9,7 +9,7 @@
             <i class="fa-solid fa-house"></i>
         </RouterLink>
         <div class="searchArea">
-            <n-date-picker v-model:value="this.range" type="daterange" clearable class="dateSelect"  />
+            <n-date-picker v-model:value="this.range" type="daterange" clearable class="dateSelect" />
             <input type="text" placeholder="搜尋問卷標題">
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
@@ -230,7 +230,7 @@ $bg: rgb(255, 255, 255);
             //放大鏡移動
             position: absolute;
             top: 10px;
-            left:99%;
+            left: 99%;
             transition: left 1s;
             cursor: pointer;
 
