@@ -8,8 +8,8 @@
     <div class="checkSel">
         <!--每個問題與它的選項 -->
         <div class="quesAndSelcet" v-for="(item, index) in this.questions">
-            <h3 v-if="item.split(',')[1] !== '必填'">{{ item.split(",")[0] }}</h3>
             <h3 v-if="item.split(',')[1] == '必填'">{{ item.split(",")[0] }} &nbsp; {{ item.split(',')[1] }}</h3>
+            <h3 v-else>{{ item.split(",")[0] }}</h3>
 
             <div class="selInput" v-for="(elements, nums) in this.ansSelect[index].split(',')[1].split(';')">
                 <textarea v-if="this.ansSelect[index].split(',')[0] == '簡答'" disabled></textarea>
@@ -31,7 +31,7 @@ export default {
         return {
         }
     },
-    props:[
+    props: [
         "title",
         "content",
         "start",
@@ -45,10 +45,10 @@ export default {
     },
     methods: {
         ...mapActions(survey, ["addSurveyInfo"]),
-        addEnd(){
+        addEnd() {
             this.addSurveyInfo()
             console.log("xxx")
-            location.href = "http://localhost:5173/"; 
+            location.href = "http://localhost:5173/";
         }
     },
 
@@ -93,46 +93,50 @@ h1 {
     margin: 0 auto;
     // overflow-y: scroll;
 
-    .quesAndSelcet {
-        width: 90%;
-        height: auto;
-        padding-left: 20px;
-        border: 0.2px solid rgb(47, 124, 42, 0.2);
-        box-shadow:
-        0em 0em 3em rgb(0, 255, 0, 0.015);
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 10px;
-        margin: 20px 0;
-        padding-top: 10px;
+        .quesAndSelcet {
+            width: 90%;
+            height: auto;
+            padding-left: 20px;
+            border: 0.2px solid rgb(47, 124, 42, 0.2);
+            box-shadow:
+                0em 0em 3em rgb(0, 255, 0, 0.015);
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            margin: 20px 0;
+            padding-top: 10px;
 
-        h3 {
-            font-size: 16pt;
-        }
+            h3 {
+                font-size: 16pt;
+            }
 
-        .selInput {
-            font-size: 16pt;
+            .selInput {
+                font-size: 16pt;
 
-            textarea {
-                margin-top: 5px;
-                resize: none;
-                height: 100px;
-                width: 95%;
-                padding: 5px;
+                textarea {
+                    margin-top: 5px;
+                    resize: none;
+                    height: 100px;
+                    width: 95%;
+                    padding: 5px;
+
+                    &:hover {
+                        outline: none;
+                    }
+                }
+            }
+
+            input[type=radio] {
+                height: 20px;
+                width: 20px;
+                margin-right: 20px;
+            }
+
+            input[type=checkbox] {
+                height: 20px;
+                width: 20px;
+                margin-right: 20px;
             }
         }
-
-        input[type=radio] {
-            height: 20px;
-            width: 20px;
-            margin-right: 20px;
-        }
-
-        input[type=checkbox] {
-            height: 20px;
-            width: 20px;
-            margin-right: 20px;
-        }
-    }
 }
 
 .checkBtn {
