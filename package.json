@@ -10,6 +10,7 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "naive-ui": "^2.35.0",
+    "nanoid": "^5.0.4",
     "pinia": "^2.0.32",
     "sass": "^1.69.5",
     "sweetalert2": "^11.10.3",

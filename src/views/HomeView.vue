@@ -124,7 +124,7 @@ export default {
         <span class="surveyText">時間:{{ item.surveyStartTime }}&nbsp;~&nbsp;{{ item.surveyEndTime }}</span>
       </div>
     </div>
-    <modal v-if="this.openModal" @closeModal="this.controlModal()" @startWrite="writeSurvey(item.surveyId)">
+    <modal v-if="this.openModal" @closeModal="this.controlModal()" @startWrite="writeSurvey(this.modalObject.surveyId)">
       <template v-slot:surveyId>
         <h2>SurveyNum&nbsp;:&nbsp;{{ this.modalObject.surveyId }}</h2>
       </template>
@@ -132,10 +132,10 @@ export default {
         <h2>時間&nbsp;:&nbsp;{{ this.modalObject.surveyStartTime }}&nbsp;~&nbsp;{{ this.modalObject.surveyEndTime }}</h2>
       </template>
       <template v-slot:condition>
-        <h2>狀態&nbsp;:</h2>
-        <div class="contentCondition" :class="{ 'redText': this.modalObject.surveyCondition !== '開放中' }">
+        <span  class="contentCondition">狀態&nbsp;:</span>
+        <span class="contentCondition" :class="{ 'redText': this.modalObject.surveyCondition !== '開放中' }">
           {{ this.modalObject.surveyCondition }}
-        </div>
+        </span>
       </template>
       <template v-slot:title>
         <h2>問卷標題&nbsp;:&nbsp;{{ this.modalObject.surveyTitle }}</h2>

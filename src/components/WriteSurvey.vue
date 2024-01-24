@@ -8,7 +8,7 @@
             <div class="title">
                 <h1>{{ this.title }}</h1>
                 <span id="titleTime">{{ this.start }}&nbsp;~&nbsp;{{ this.end }}</span>
-                <h2>{{ this.content }}</h2>
+                <h2 id="titleContent">{{ this.content }}</h2>
             </div>
             <!-- 填寫姓名區 -->
             <div class="namedArea" v-if="this.named == true">
@@ -164,23 +164,28 @@ export default {
 .writeArea {
     padding-top: 10px;
     width: 100vw;
-    height: 160%;
+    height: 160dvh;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 2px 2px 0 rgba(163, 163, 162, 0.5) inset;
 
     .title {
         width: 100%;
-        height: 40%;
-        padding: 0 40%;
+        height: 60%;
+        padding: 0 20%;
         position: relative;
 
         #titleTime {
             position: absolute;
             top: 20px;
-            right: 18%;
+            right: 20%;
         }
 
+        #titleContent{
+            margin-top: 2dvh;
+            width: 60%;
+            height: 80%;
+        }
         h1 {
             font-size: 36pt;
         }
@@ -188,26 +193,28 @@ export default {
         h2 {
             font-weight: 400;
             position: absolute;
-            left: 30%;
+            left: 20%;
         }
     }
 
     .namedArea {
         width: 100%;
-        height: 20dvh;
+        height: 30%;
         padding: 0 30%;
         position: relative;
+        margin-bottom: 5%;
 
         .namedItem {
             width: 80%;
             margin: 1% 10%;
             height: 5vh;
             display: flex;
-            font-size: 14pt;
+            font-size: 1.5dvw;
             position: relative;
             // justify-content: space-around;
 
             input {
+                width: 20dvw;
                 padding-left: 5px;
                 position: absolute;
                 left: 20%;
@@ -215,7 +222,7 @@ export default {
             }
 
             #inputPhone {
-                width: 160px;
+                width: 10dvw;
                 padding-left: 5px;
             }
 
@@ -227,7 +234,7 @@ export default {
             #inputAge {
                 position: absolute;
                 left: 70%;
-                font-size: 12pt;
+                font-size: 1dvw;
 
                 &:focus {
                     outline: 0.5px solid rgb(2, 126, 2);

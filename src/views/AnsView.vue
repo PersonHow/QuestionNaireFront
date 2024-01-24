@@ -20,6 +20,7 @@
 import WriteSurvey from '../components/WriteSurvey.vue';
 import ResCheck from '../components/ResCheck.vue';
 import Swal from 'sweetalert2';
+import { nanoid } from 'nanoid'
 export default {
     data() {
         return {
@@ -80,7 +81,7 @@ export default {
             }
             // 確認問卷是否記名，若不記名則填訪客
             if (!this.surveyInfo.surveyNamed) {
-                sentTarget.reply[0].personalId = "訪客"
+                sentTarget.reply[0].personalId = nanoid();
             }
             console.log(sentTarget)
 
@@ -142,7 +143,7 @@ export default {
                     console.log(data)
                 })
                 .catch(err => console.log(err))
-        }
+            }
     },
     props: [
         "id"
