@@ -116,7 +116,7 @@ export default {
     height: 160%;
     display: flex;
     flex-direction: column;
-    // position: relative;
+    box-shadow: 0px 2px 2px 0 rgba(163, 163, 162, 0.5) inset;
 
     .icon {
         position: fixed;

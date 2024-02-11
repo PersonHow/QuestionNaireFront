@@ -25,7 +25,7 @@ export default {
   methods: {
     ...mapActions(location, ["setLocation"]),
     showAll() {
-      fetch("http://localhost:8080/questionNaire/backAllSurvey", {
+      fetch("http://localhost:8080/questionNaire/frontAllSurvey", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -89,6 +89,9 @@ export default {
     controlModal(target) {
       this.modalObject = target;
       this.openModal = !this.openModal;
+    },
+    updateTime() {
+      fetch("")
     }
 
   },
@@ -120,11 +123,14 @@ export default {
       <div class="surveyBlock" @click="this.controlModal(item)">
         <span class="surveyTitle">SurveyNum:{{ item.surveyId }}</span>
         <span class="surveyText">問卷標題:{{ item.surveyTitle }}</span>
-        <span class="surveyText">狀態:{{ item.surveyCondition }}</span>
+        <span class="surveyText" :class="{ 'redText': item.surveyCondition == '投票中' }">
+          狀態:{{ item.surveyCondition }}
+        </span>
         <span class="surveyText">時間:{{ item.surveyStartTime }}&nbsp;~&nbsp;{{ item.surveyEndTime }}</span>
       </div>
     </div>
-    <modal v-if="this.openModal" @closeModal="this.controlModal()" @startWrite="writeSurvey(this.modalObject.surveyId)">
+    <modal v-if="this.openModal" @closeModal="this.controlModal()" @startWrite="writeSurvey(this.modalObject.surveyId)"
+      :surveyCondition="this.modalObject.surveyCondition">
       <template v-slot:surveyId>
         <h2>SurveyNum&nbsp;:&nbsp;{{ this.modalObject.surveyId }}</h2>
       </template>
@@ -132,8 +138,8 @@ export default {
         <h2>時間&nbsp;:&nbsp;{{ this.modalObject.surveyStartTime }}&nbsp;~&nbsp;{{ this.modalObject.surveyEndTime }}</h2>
       </template>
       <template v-slot:condition>
-        <span  class="contentCondition">狀態&nbsp;:</span>
-        <span class="contentCondition" :class="{ 'redText': this.modalObject.surveyCondition !== '開放中' }">
+        <span class="contentCondition">狀態&nbsp;:</span>
+        <span class="contentCondition" :class="{ 'redText': this.modalObject.surveyCondition == '投票中' }">
           {{ this.modalObject.surveyCondition }}
         </span>
       </template>
@@ -168,6 +174,7 @@ $bg: rgb(255, 255, 255);
   justify-content: center;
   align-items: start;
   padding-top: 30px;
+  box-shadow: 0px 2px 2px 0 rgba(163, 163, 162, 0.5) inset;
 
   .question {
     width: 30%;
@@ -287,5 +294,11 @@ $bg: rgb(255, 255, 255);
   .redText {
     color: red;
   }
+}
+
+.blockSurvey {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
 }
 </style>

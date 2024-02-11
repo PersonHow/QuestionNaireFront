@@ -1,12 +1,16 @@
 <script>
 export default {
+    props: [
+        'surveyCondition'
+    ],
     mounted() {
         document.addEventListener('keydown', () => {
             if (window.event.code == "Escape") {
                 return this.$emit('closeModal')
             }
-
+        
         })
+        console.log(this.surveyCondition);
     }
 }
 </script>
@@ -33,7 +37,7 @@ export default {
 
             <div class="btnArea">
 
-                <button type="button" @click="$emit('startWrite')">
+                <button type="button" @click="$emit('startWrite')" :class="{ 'blockButton': this.surveyCondition !== '投票中' }">
                     <i class="fa-solid fa-pen-to-square"></i>&nbsp;填寫問卷</button>
                 <button type="button"><i class="fa-solid fa-chart-line"></i>&nbsp;查看統計</button>
             </div>
@@ -123,6 +127,7 @@ export default {
                 border: none;
                 cursor: pointer;
                 transition: all 0.2s;
+
                 &:hover {
                     //  圖示相關動畫
                     color: rgb(227, 245, 222);
@@ -132,9 +137,9 @@ export default {
                     scale: 1.15;
                 }
 
-                &:active{
+                &:active {
                     color: black;
-                    text-shadow: none   ;
+                    text-shadow: none;
                     scale: 0.95;
                 }
             }
@@ -149,5 +154,11 @@ export default {
         background: rgba(40, 71, 34, 0.25);
         backdrop-filter: blur(5px);
     }
+}
+
+.blockButton {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
 }
 </style>
