@@ -39,12 +39,14 @@ export default {
     },
     methods: {
         transDate() {
-            let startDate = new Date(this.range[0])
-            let endDate = new Date(this.range[1])
-            let startText = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`
-            let endText = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`
-            console.log(startDate)
-            console.log(startText)
+            if (this.range !== null) {
+                let startDate = new Date(this.range[0])
+                let endDate = new Date(this.range[1])
+                let startText = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`
+                let endText = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`
+                console.log(startDate)
+                console.log(startText)
+            }
         },
         conDate() {
             const datePicker = document.querySelector(".dateSelect")
