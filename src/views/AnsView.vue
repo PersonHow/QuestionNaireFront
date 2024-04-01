@@ -117,8 +117,12 @@ export default {
                         icon: "success",
                         title: "成功送出問卷",
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1000
                     })
+                    setTimeout(() =>{
+                        // 回首頁
+                        location.href=`http://${location.host}/`
+                    }, 1200)
                 })
                 .catch(error => console.log(error))
         },

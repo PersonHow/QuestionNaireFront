@@ -2,7 +2,7 @@
 import { mapActions } from 'pinia';
 import location from '../stores/location';
 import { RouterLink } from 'vue-router';
-import modal from '../components/Modal.vue';
+import modal from '../components/Ｍodal.vue';
 export default {
   data() {
     return {
@@ -92,6 +92,9 @@ export default {
     },
     updateTime() {
       fetch("")
+    },
+    showSurveyTotal(id){
+      this.$router.push(`/Total/${id}`)
     }
 
   },
@@ -117,9 +120,7 @@ export default {
 
 <template>
   <div class="questionArea">
-    <!-- <button type="button" @click="pagination(this.arr)">BTN</button> -->
     <div class="question" v-for="(item, index) in dataArr">
-      <!-- <div class="surveyBlock" @click="writeSurvey(item.surveyId)"> -->
       <div class="surveyBlock" @click="this.controlModal(item)">
         <span class="surveyTitle">SurveyNum:{{ item.surveyId }}</span>
         <span class="surveyText">問卷標題:{{ item.surveyTitle }}</span>
@@ -130,7 +131,7 @@ export default {
       </div>
     </div>
     <modal v-if="this.openModal" @closeModal="this.controlModal()" @startWrite="writeSurvey(this.modalObject.surveyId)"
-      :surveyCondition="this.modalObject.surveyCondition">
+    @startTotal="showSurveyTotal(this.modalObject.surveyId)" :surveyCondition="this.modalObject.surveyCondition" class="showModalTime">
       <template v-slot:surveyId>
         <h2>SurveyNum&nbsp;:&nbsp;{{ this.modalObject.surveyId }}</h2>
       </template>
@@ -224,7 +225,7 @@ $bg: rgb(255, 255, 255);
         box-shadow:
           inset 0px 0px 2em rgb(85, 255, 0, 0.5),
           0px 0px 30px rgb(25, 255, 15, 0.45);
-        border: 3px solid rgb(11, 177, 11);
+        border: 3px solid rgb(91, 243, 91);
         color: rgb(113, 156, 111);
 
         .surveyTitle {
@@ -247,22 +248,23 @@ $bg: rgb(255, 255, 255);
     justify-content: center;
     align-items: center;
     margin-top: 50px;
-
     .pageBTN {
+      cursor: pointer;
       font-size: 30px;
       margin: 0 5px;
       background: none;
       border: none;
       transition: color 0.3s, font-size 0.1s;
-
+      
       &:hover {
         color: rgba(42, 194, 4, 0.8);
         transition: color 0.3s;
         scale: 1.1;
       }
     }
-
+    
     .lightBTN {
+      cursor: pointer;
       color: rgb(113, 165, 110);
       font-size: 38px;
       transition: color 0.3s, font-size 0.1s;
@@ -294,6 +296,8 @@ $bg: rgb(255, 255, 255);
   .redText {
     color: red;
   }
+
+
 }
 
 .blockSurvey {

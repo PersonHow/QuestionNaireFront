@@ -39,7 +39,8 @@ export default {
 
                 <button type="button" @click="$emit('startWrite')" :class="{ 'blockButton': this.surveyCondition !== '投票中' }">
                     <i class="fa-solid fa-pen-to-square"></i>&nbsp;填寫問卷</button>
-                <button type="button"><i class="fa-solid fa-chart-line"></i>&nbsp;查看統計</button>
+                    <button type="button" @click="$emit('startTotal')" :class="{ 'blockButton': this.surveyCondition == '未開放' }"><i
+                        class="fa-solid fa-chart-line"></i>&nbsp;查看統計</button>
             </div>
         </div>
         <div class="bg" @click="$emit('closeModal')"></div>
@@ -153,6 +154,7 @@ export default {
         height: 200dvh;
         background: rgba(40, 71, 34, 0.25);
         backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
     }
 }
 

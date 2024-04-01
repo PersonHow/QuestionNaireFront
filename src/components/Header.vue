@@ -70,7 +70,7 @@ $bg: rgb(255, 255, 255);
     background: $bg;
     align-items: center;
     position: relative;
-    transition: height 1s, display 1s;
+    transition: all 1s, display 1s;
     border-bottom: 1px solid rgb(136, 159, 134, 0.6);
     z-index: 1;
 
@@ -91,10 +91,10 @@ $bg: rgb(255, 255, 255);
             position: absolute;
             color: rgba(100, 102, 100);
             left: 0;
-            top: 15px;
-            font-size: 4dvh;
+            top: 2dvh;
+            font-size: 3dvh;
             display: block;
-            transition: left 1s;
+            transition: all 1s;
         }
     }
 
@@ -107,8 +107,8 @@ $bg: rgb(255, 255, 255);
 
         .barItem {
             position: absolute;
-            top: 5px;
-            font-size: 28pt;
+            top: 1dvh;
+            font-size: 3dvw;
             color: rgba(100, 102, 100);
         }
 
@@ -116,8 +116,9 @@ $bg: rgb(255, 255, 255);
             position: absolute;
             width: 40px;
             height: 40px;
-            top: 10px;
+            top: 2dvh;
             left: 10px;
+            transition: all 0.5s ease-in;
         }
 
         span {
@@ -160,7 +161,7 @@ $bg: rgb(255, 255, 255);
     background: $bg;
     align-items: center;
     position: relative;
-    transition: height 1s, display 1s;
+    transition: all 1s, display 1s ease-in;
     z-index: 1;
 
     .routeItem {
@@ -175,11 +176,12 @@ $bg: rgb(255, 255, 255);
             font-size: 3dvw;
             text-shadow: none;
             color: rgba(100, 102, 100);
+            top:2dvh;
         }
 
         .barText {
             // 標題文字
-            font-size: 1.5dvw;
+            font-size: 1.6dvw;
             text-shadow: none;
             font-family: 'Noto Sans TC', sans-serif;
             color: rgba(100, 102, 100);
@@ -192,16 +194,16 @@ $bg: rgb(255, 255, 255);
             position: absolute;
             width: 40px;
             height: 40px;
-            top: 10px;
+            top: 3dvh;
             left: 10px;
             opacity: 1;
-            transition: opacity 1s;
+            transition: all 1s;
         }
 
         span {
             // Header　移動的動畫
             position: absolute;
-            top: 10px;
+            top: 2.5dvh;
             left: 25%;
             display: block;
             animation: textUp linear 0.5s;
@@ -237,10 +239,11 @@ $bg: rgb(255, 255, 255);
 
         i {
             //放大鏡移動
+            font-size: 3dvw;
             position: absolute;
-            top: 10px;
+            top: 1.5dvh;
             left: 99%;
-            transition: left 1s;
+            transition: all 1s;
             cursor: pointer;
 
             &:hover {
